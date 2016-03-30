@@ -19,4 +19,11 @@ var_dump(shell_exec('date'));
 		shell_exec('cd /var/www/servo_controller && sudo python servoCMD2.py 0');
 		echo "Under 2";
 	}
+
+	if(is_numeric(trim($_POST['thirdServo']))){
+		var_dump(shell_exec('cd /var/www/servo_controller && sudo python servoCMD2.py '.trim($_POST['thirdServo']).' 2>&1'));
+	} else{
+		shell_exec('cd /var/www/servo_controller && sudo python servoCMD3.py 0');
+		echo "Under 3";
+	}
 ?>
