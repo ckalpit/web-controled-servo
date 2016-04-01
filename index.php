@@ -68,7 +68,7 @@
 			<br /><br />
 			<center>
 				<input type="text" id="username" value="" placeholder="Username">
-				<input type="text" id="password" value="" placeholder="Password">
+				<input type="password" id="password" value="" placeholder="Password">
 				<button id="login_btn">Login</button>
 				</center>
 			</div>
