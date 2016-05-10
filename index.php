@@ -18,8 +18,8 @@
 			background-image: radial-gradient(farthest-corner at center top, #917b6c 0%, #1c1917 100%);
 		}
 		#wall_socket {
-			width:620px;
-			height:140px;
+			width:840px;
+			height:350px;
 			position:relative;
 			margin:50px auto;
 			background: rgb(244,241,238);
@@ -36,8 +36,10 @@
 		}
 		div#switch_container {
 			/*display: none;*/
+			padding-top: 6px;
+			padding-left: 2px;
 			background:#544a45;
-			width:530px;
+			width:710px;
 			height:40px;
 			margin:40px 40px;
 			border-radius:5px;
@@ -46,25 +48,54 @@
 		}
 
 		#submit_angles{
-			padding-bottom: 15px;
+			padding: 15px;
+			border-radius: 8px;
+		}
+		#submit_angles:hover{
+			cursor: pointer;
+		}
+		.stats{
+			display: inherit;
+			padding-left: 20%;
+		}
+		.servo_info{
+			border: 1px;
+			border-style: dotted;
+			padding: 1%;
+			margin-right: 5%;
 		}
 	</style>
 </head>
 <body>
 	<div id="wall_socket">
-		<div id="controls" style="display: none;">
+		<!-- <div id="controls" style="display: none;"> -->
+		<div id="controls">
 			<div id="switch_container">
 				<input type="number" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
 				<input type="number" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
 				<input type="number" min="0" name="servo3" placeholder="Servo 3 angle, e.g.: 140" id="servo3" />
+				<input type="number" min="0" name="servo4" placeholder="Servo 4 angle, e.g.: 140" id="servo4" />
+			</div>
+
+			<div style="float: left;width: 250px;" class="info_stats">
+				<li class="stats"><b>Temperature</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Voltage</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Current</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
 			</div>
 			<center>
 				<button id="submit_angles">Rotate</button>
 			</center>
-<<<<<<< HEAD
+			<br />
+			<br />
+			<div class="status" style="width: 100%;display: inline-block;margin-top: 25px;padding-left: 14%;">
+				<span class="servo_info">Servo 1 rotated</span>
+				<span class="servo_info">Servo 2 rotated</span>
+				<span class="servo_info">Servo 3 rotated</span>
+				<span class="servo_info">Servo 4 rotated</span>
+			</div>
 		</div>
 
-		<div id="access_control">
+		<!-- <div id="access_control">
 			<br /><br />
 			<center>
 				<input type="text" id="username" value="" placeholder="Username">
@@ -72,7 +103,7 @@
 				<button id="login_btn">Login</button>
 				</center>
 			</div>
-		</div>
+		</div> -->
 	</body>
 
 	<!-- 1.7.2 -->
@@ -82,42 +113,23 @@
 			var leftValue = $("#servo1").val().trim();
 			var rightValue = $("#servo2").val().trim();
 			var thirdValue = $("#servo3").val().trim();
+			var fourthServo = $("#servo4").val().trim();
 
-=======
-		</div>
-
-		<div id="access_control">
-			<br /><br />
-			<center>
-				<input type="text" id="username" value="" placeholder="Username">
-				<input type="password" id="password" value="" placeholder="Password">
-				<button id="login_btn">Login</button>
-				</center>
-			</div>
-		</div>
-	</body>
-
-	<!-- 1.7.2 -->
-	<script src="jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).on('click','#submit_angles',function(){
-			var leftValue = $("#servo1").val().trim();
-			var rightValue = $("#servo2").val().trim();
-			var thirdValue = $("#servo3").val().trim();
-
->>>>>>> eb4f443019e5ae90ca80879445fbc3ae702cac7e
 			if(leftValue != '' && $.isNumeric(leftValue)){
 				if(rightValue != '' && $.isNumeric(rightValue)){
 					if(thirdValue != '' && $.isNumeric(thirdValue)){
-						$.ajax({
-							type: 'POST',
-							data: {leftServo: leftValue, rightServo: rightValue, thirdServo: thirdValue},
-							dataType: "json",
-							url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
-							success: function(response){
-								console.log(response);
-							}
-						});
+						if(fourthServo != '' && $.isNumeric(fourthServo)){
+							$.ajax({
+								type: 'POST',
+								data: {leftServo: leftValue, rightServo: rightValue, thirdServo: thirdValue, fourthServo: fourthServo},
+								dataType: "json",
+								url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
+								success: function(response){
+									console.log(response);
+								}
+							});
+						} else
+						alert("Value for Servo 4 is invalid");
 					} else
 					alert("Value for Servo 3 is invalid");
 				} else
