@@ -16,10 +16,9 @@
 			background-image: -ms-radial-gradient(center top, farthest-corner, #917b6c 0%, #1c1917 100%);
 			background-image: -o-radial-gradient(center top, farthest-corner, #917b6c 0%, #1c1917 100%);
 			background-image: radial-gradient(farthest-corner at center top, #917b6c 0%, #1c1917 100%);
-
 		}
 		#wall_socket {
-			width:440px;
+			width:620px;
 			height:140px;
 			position:relative;
 			margin:50px auto;
@@ -36,14 +35,16 @@
 			overflow:hidden;
 		}
 		div#switch_container {
+			/*display: none;*/
 			background:#544a45;
-			width:360px;
+			width:530px;
 			height:40px;
 			margin:40px 40px;
 			border-radius:5px;
 			border-bottom:2px solid #e9e4e1;
 			border-top:2px solid #cccac8;
 		}
+
 		#submit_angles{
 			padding-bottom: 15px;
 		}
@@ -51,41 +52,74 @@
 </head>
 <body>
 	<div id="wall_socket">
-		<div id="switch_container">
-			<input type="number" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
-			<input type="number" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
+		<div id="controls" style="display: none;">
+			<div id="switch_container">
+				<input type="number" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
+				<input type="number" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
+				<input type="number" min="0" name="servo3" placeholder="Servo 3 angle, e.g.: 140" id="servo3" />
+			</div>
+			<center>
+				<button id="submit_angles">Rotate</button>
+			</center>
 		</div>
-		<center>
-			<button id="submit_angles">Rotate</button>
-		</center>
-	</div>
-</body>
 
-<!-- 1.7.2 -->
-<script src="jquery.min.js"></script>
-<script type="text/javascript">
-	$(document).on('click','#submit_angles',function(){
-		var leftValue = $("#servo1").val().trim();
-		var rightValue = $("#servo2").val().trim();
+		<div id="access_control">
+			<br /><br />
+			<center>
+				<input type="text" id="username" value="" placeholder="Username">
+				<input type="password" id="password" value="" placeholder="Password">
+				<button id="login_btn">Login</button>
+				</center>
+			</div>
+		</div>
+	</body>
 
-		if(leftValue != '' && $.isNumeric(leftValue)){
-			if(rightValue != '' && $.isNumeric(rightValue)){
-				$.ajax({
-					type: 'POST',
-					data: {leftServo: leftValue, rightServo: rightValue},
-					dataType: "json",
-					url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
-					success: function(response){
-						console.log(response);
-					}
-				});
-			} else{
+	<!-- 1.7.2 -->
+	<script src="jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).on('click','#submit_angles',function(){
+			var leftValue = $("#servo1").val().trim();
+			var rightValue = $("#servo2").val().trim();
+			var thirdValue = $("#servo3").val().trim();
+
+			if(leftValue != '' && $.isNumeric(leftValue)){
+				if(rightValue != '' && $.isNumeric(rightValue)){
+					if(thirdValue != '' && $.isNumeric(thirdValue)){
+						$.ajax({
+							type: 'POST',
+							data: {leftServo: leftValue, rightServo: rightValue, thirdServo: thirdValue},
+							dataType: "json",
+							url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
+							success: function(response){
+								console.log(response);
+							}
+						});
+					} else
+					alert("Value for Servo 3 is invalid");
+				} else
 				alert("Value for Servo 2 is invalid");
-			}
-		} else{
+			}else
 			alert("Value for Servo 1 is invalid");
-		}
-	});
-</script>
+		});
 
-</html>
+		$(document).on('click','#login_btn',function(){
+			var username = $("#username").val().trim();
+			var pwd = $("#password").val().trim();
+
+			if(username != '' && pwd != ''){
+				if(username == "admin" && pwd == "parrotabcd"){
+					$("#controls").show();
+					$("#access_control").hide();
+				}
+			}else
+			alert("Username / Password is blank.");
+		});
+
+		$(document).on('keyup', "#username, #password", function(e){
+			if(e.keyCode == 13){
+				$("#login_btn").trigger("click");
+			}
+		});
+	</script>
+
+	</html>
