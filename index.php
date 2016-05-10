@@ -61,6 +61,7 @@
 			<center>
 				<button id="submit_angles">Rotate</button>
 			</center>
+<<<<<<< HEAD
 		</div>
 
 		<div id="access_control">
@@ -82,6 +83,29 @@
 			var rightValue = $("#servo2").val().trim();
 			var thirdValue = $("#servo3").val().trim();
 
+=======
+		</div>
+
+		<div id="access_control">
+			<br /><br />
+			<center>
+				<input type="text" id="username" value="" placeholder="Username">
+				<input type="password" id="password" value="" placeholder="Password">
+				<button id="login_btn">Login</button>
+				</center>
+			</div>
+		</div>
+	</body>
+
+	<!-- 1.7.2 -->
+	<script src="jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).on('click','#submit_angles',function(){
+			var leftValue = $("#servo1").val().trim();
+			var rightValue = $("#servo2").val().trim();
+			var thirdValue = $("#servo3").val().trim();
+
+>>>>>>> eb4f443019e5ae90ca80879445fbc3ae702cac7e
 			if(leftValue != '' && $.isNumeric(leftValue)){
 				if(rightValue != '' && $.isNumeric(rightValue)){
 					if(thirdValue != '' && $.isNumeric(thirdValue)){
