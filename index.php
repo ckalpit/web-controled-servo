@@ -68,8 +68,7 @@
 </head>
 <body>
 	<div id="wall_socket">
-		<!-- <div id="controls" style="display: none;"> -->
-		<div id="controls">
+		<div id="controls" style="display: none;">
 			<div id="switch_container">
 				<input type="number" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
 				<input type="number" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
@@ -95,7 +94,7 @@
 			</div>
 		</div>
 
-		<!-- <div id="access_control">
+		<div id="access_control">
 			<br /><br />
 			<center>
 				<input type="text" id="username" value="" placeholder="Username">
@@ -103,7 +102,7 @@
 				<button id="login_btn">Login</button>
 				</center>
 			</div>
-		</div> -->
+		</div>
 	</body>
 
 	<!-- 1.7.2 -->
