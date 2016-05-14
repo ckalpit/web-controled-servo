@@ -169,32 +169,32 @@
 			url: "http://<?=$_SERVER['SERVER_ADDR']?>/device_status.php",
 			success: function(response) {
 				if(response.temp=="1"){
-					$("#temperature_id").css("color", "red");
+					// $("#temperature_id").css("color", "red");
 					$("#temperature_text").show();
 					$("#temperature_id").hide();
 					hideInput = 1;
 				} else {
-					$("#temperature_id").css("color", "green");
+					// $("#temperature_id").css("color", "green");
 					$("#temperature_id").show();
 					$("#temperature_text").hide();
 				}
 				if(response.voltage){
-					$("#voltage_id").css("color", "red");
+					// $("#voltage_id").css("color", "red");
 					$("#voltage_text").show();
 					$("#voltage_id").hide();
 					hideInput = 1;
 				} else {
-					$("#voltage_id").css("color", "green");
+					// $("#voltage_id").css("color", "green");
 					$("#voltage_id").show();
 					$("#voltage_text").hide();
 				}
 				if(response.current){
-					$("#current_id").css("color", "red");
+					// $("#current_id").css("color", "red");
 					$("#current_text").show();
 					$("#current_id").hide();
 					hideInput = 1;
 				} else {
-					$("#current_id").css("color", "green");
+					// $("#current_id").css("color", "green");
 					$("#current_text").hide();
 					$("#current_id").show();
 				}
