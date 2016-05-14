@@ -68,7 +68,7 @@
 </head>
 <body>
 	<div id="wall_socket">
-		<div id="controls">
+		<div id="controls" style="display:none;">
 			<div id="switch_container">
 				<input type="number" class="input_servo" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
 				<input type="number" class="input_servo" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
