@@ -77,7 +77,7 @@
 			</div>
 
 			<div style="float: left;width: 250px;" class="info_stats">
-				<li class="stats"><b>Temperature</b>: <span id="temperature_id" style="color: green;">Proper</span><span id="temp_text" style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Temperature</b>: <span id="temperature_id" style="color: green;">Proper</span><span id="temperature_text" style="display: none; color: red;">High</span></li>
 				<li class="stats"><b>Voltage</b>: <span id="voltage_id" style="color: green;">Proper</span><span id="voltage_text" style="display: none; color: red;">High</span></li>
 				<li class="stats"><b>Current</b>: <span id="current_id" style="color: green;">Proper</span><span id="current_text" style="display: none; color: red;">High</span></li>
 			</div>
@@ -170,27 +170,33 @@
 			success: function(response) {
 				if(response.temp=="1"){
 					$("#temperature_id").css("color", "red");
-					$("#temp_text").text("High");
+					$("#temperature_text").show();
+					$("#temperature_id").hide();
 					hideInput = 1;
 				} else {
 					$("#temperature_id").css("color", "green");
-					$("#temp_text").text("Proper");
+					$("#temperature_id").show();
+					$("#temperature_text").hide();
 				}
 				if(response.voltage){
 					$("#voltage_id").css("color", "red");
-					$("#voltage_text").text("High");
+					$("#voltage_text").show();
+					$("#voltage_id").hide();
 					hideInput = 1;
 				} else {
 					$("#voltage_id").css("color", "green");
-					$("#voltage_text").text("Proper");
+					$("#voltage_id").show();
+					$("#voltage_text").hide();
 				}
 				if(response.current){
 					$("#current_id").css("color", "red");
-					$("#current_text").text("High");
+					$("#current_text").show();
+					$("#current_id").hide();
 					hideInput = 1;
 				} else {
 					$("#current_id").css("color", "green");
-					$("#current_text").text("Proper");
+					$("#current_text").hide();
+					$("#current_id").show();
 				}
 				
 
