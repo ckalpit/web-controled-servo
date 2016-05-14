@@ -94,24 +94,25 @@
 			</div>
 		</div>
 
-		<!--<div id="access_control">
+		<div id="access_control">
 			<br /><br />
 			<center>
 				<input type="text" id="username" value="" placeholder="Username">
 				<input type="password" id="password" value="" placeholder="Password">
 				<button id="login_btn">Login</button>
 			</center>
-		</div>-->
+		</div>
 	</div>
 </body>
 
 <!-- 1.7.2 -->
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
-$(".status").hide();
+	$(".status").hide();
 
 	function showStatus(){
 		$(".status").show();
+		
 		setTimeout(function(){
 			$(".status").hide();
 		}, 2000);
@@ -135,7 +136,9 @@ $(".status").hide();
 								console.log(response);
 							}
 						});
-						setTimeout(function(){showStatus();}, 1000);
+						setTimeout(function(){
+							showStatus();
+						}, 1000);
 					} else
 					alert("Value for Servo 4 is invalid");
 				} else
@@ -176,7 +179,7 @@ $(".status").hide();
 			dataType: "json",
 			url: "http://<?=$_SERVER['SERVER_ADDR']?>/device_status.php",
 			success: function(response) {
-console.log("Temp:"+response.temp+" Voltage: "+response.voltage+" Current: "+ response.current);
+				console.log("Temp:"+response.temp+" Voltage: "+response.voltage+" Current: "+ response.current);
 				if(response.temp=="1"){
 					$("#temperature_text").show();
 					$("#temperature_id").hide();
