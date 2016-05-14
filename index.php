@@ -68,7 +68,7 @@
 </head>
 <body>
 	<div id="wall_socket">
-		<div id="controls" style="display: none;">
+		<div id="controls">
 			<div id="switch_container">
 				<input type="number" class="input_servo" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
 				<input type="number" class="input_servo" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
@@ -94,20 +94,28 @@
 			</div>
 		</div>
 
-		<div id="access_control">
+		<!--<div id="access_control">
 			<br /><br />
 			<center>
 				<input type="text" id="username" value="" placeholder="Username">
 				<input type="password" id="password" value="" placeholder="Password">
 				<button id="login_btn">Login</button>
 			</center>
-		</div>
+		</div>-->
 	</div>
 </body>
 
 <!-- 1.7.2 -->
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
+$(".status").hide();
+
+	function showStatus(){
+		$(".status").show();
+		setTimeout(function(){
+			$(".status").hide();
+		}, 2000);
+	}
 	$(document).on('click','#submit_angles',function(){
 		var leftValue = $("#servo1").val().trim();
 		var rightValue = $("#servo2").val().trim();
@@ -127,6 +135,7 @@
 								console.log(response);
 							}
 						});
+						setTimeout(function(){showStatus();}, 1000);
 					} else
 					alert("Value for Servo 4 is invalid");
 				} else
@@ -156,7 +165,7 @@
 		}
 	});
 
-	var frequency = 1500; //Update stats every 2 seconds
+	var frequency = 1500; //Update stats every 1.5 seconds
 	var hideInput = 0;
 
 	function executeQuery() {
@@ -167,6 +176,7 @@
 			dataType: "json",
 			url: "http://<?=$_SERVER['SERVER_ADDR']?>/device_status.php",
 			success: function(response) {
+console.log("Temp:"+response.temp+" Voltage: "+response.voltage+" Current: "+ response.current);
 				if(response.temp=="1"){
 					$("#temperature_text").show();
 					$("#temperature_id").hide();
@@ -175,7 +185,7 @@
 					$("#temperature_id").show();
 					$("#temperature_text").hide();
 				}
-				if(response.voltage){
+				if(response.voltage=="1"){
 					$("#voltage_text").show();
 					$("#voltage_id").hide();
 					hideInput = 1;
@@ -183,7 +193,7 @@
 					$("#voltage_id").show();
 					$("#voltage_text").hide();
 				}
-				if(response.current){
+				if(response.current=="1"){
 					$("#current_text").show();
 					$("#current_id").hide();
 					hideInput = 1;
