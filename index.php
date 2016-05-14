@@ -70,16 +70,16 @@
 	<div id="wall_socket">
 		<div id="controls" style="display: none;">
 			<div id="switch_container">
-				<input type="number" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
-				<input type="number" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
-				<input type="number" min="0" name="servo3" placeholder="Servo 3 angle, e.g.: 140" id="servo3" />
-				<input type="number" min="0" name="servo4" placeholder="Servo 4 angle, e.g.: 140" id="servo4" />
+				<input type="number" class="input_servo" min="0" name="servo1" placeholder="Servo 1 angle, e.g.: 80" id="servo1" />
+				<input type="number" class="input_servo" min="0" name="servo2" placeholder="Servo 2 angle, e.g.: 140" id="servo2" />
+				<input type="number" class="input_servo" min="0" name="servo3" placeholder="Servo 3 angle, e.g.: 140" id="servo3" />
+				<input type="number" class="input_servo" min="0" name="servo4" placeholder="Servo 4 angle, e.g.: 140" id="servo4" />
 			</div>
 
 			<div style="float: left;width: 250px;" class="info_stats">
-				<li class="stats"><b>Temperature</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
-				<li class="stats"><b>Voltage</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
-				<li class="stats"><b>Current</b>: <span style="color: green;">Proper</span><span style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Temperature</b>: <span id="temperature_id" style="color: green;">Proper</span><span id="temp_text" style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Voltage</b>: <span id="voltage_id" style="color: green;">Proper</span><span id="voltage_text" style="display: none; color: red;">High</span></li>
+				<li class="stats"><b>Current</b>: <span id="current_id" style="color: green;">Proper</span><span id="current_text" style="display: none; color: red;">High</span></li>
 			</div>
 			<center>
 				<button id="submit_angles">Rotate</button>
@@ -100,61 +100,112 @@
 				<input type="text" id="username" value="" placeholder="Username">
 				<input type="password" id="password" value="" placeholder="Password">
 				<button id="login_btn">Login</button>
-				</center>
-			</div>
+			</center>
 		</div>
-	</body>
+	</div>
+</body>
 
-	<!-- 1.7.2 -->
-	<script src="jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).on('click','#submit_angles',function(){
-			var leftValue = $("#servo1").val().trim();
-			var rightValue = $("#servo2").val().trim();
-			var thirdValue = $("#servo3").val().trim();
-			var fourthServo = $("#servo4").val().trim();
+<!-- 1.7.2 -->
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).on('click','#submit_angles',function(){
+		var leftValue = $("#servo1").val().trim();
+		var rightValue = $("#servo2").val().trim();
+		var thirdValue = $("#servo3").val().trim();
+		var fourthServo = $("#servo4").val().trim();
 
-			if(leftValue != '' && $.isNumeric(leftValue)){
-				if(rightValue != '' && $.isNumeric(rightValue)){
-					if(thirdValue != '' && $.isNumeric(thirdValue)){
-						if(fourthServo != '' && $.isNumeric(fourthServo)){
-							$.ajax({
-								type: 'POST',
-								data: {leftServo: leftValue, rightServo: rightValue, thirdServo: thirdValue, fourthServo: fourthServo},
-								dataType: "json",
-								url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
-								success: function(response){
-									console.log(response);
-								}
-							});
-						} else
-						alert("Value for Servo 4 is invalid");
+		if(leftValue != '' && $.isNumeric(leftValue)){
+			if(rightValue != '' && $.isNumeric(rightValue)){
+				if(thirdValue != '' && $.isNumeric(thirdValue)){
+					if(fourthServo != '' && $.isNumeric(fourthServo)){
+						$.ajax({
+							type: 'POST',
+							data: {leftServo: leftValue, rightServo: rightValue, thirdServo: thirdValue, fourthServo: fourthServo},
+							dataType: "json",
+							url: "http://<?=$_SERVER['SERVER_ADDR']?>/servo_work.php",
+							success: function(response){
+								console.log(response);
+							}
+						});
 					} else
-					alert("Value for Servo 3 is invalid");
+					alert("Value for Servo 4 is invalid");
 				} else
-				alert("Value for Servo 2 is invalid");
-			}else
-			alert("Value for Servo 1 is invalid");
-		});
+				alert("Value for Servo 3 is invalid");
+			} else
+			alert("Value for Servo 2 is invalid");
+		}else
+		alert("Value for Servo 1 is invalid");
+	});
 
-		$(document).on('click','#login_btn',function(){
-			var username = $("#username").val().trim();
-			var pwd = $("#password").val().trim();
+	$(document).on('click','#login_btn',function(){
+		var username = $("#username").val().trim();
+		var pwd = $("#password").val().trim();
 
-			if(username != '' && pwd != ''){
-				if(username == "admin" && pwd == "parrotabcd"){
-					$("#controls").show();
-					$("#access_control").hide();
+		if(username != '' && pwd != ''){
+			if(username == "admin" && pwd == "parrotabcd"){
+				$("#controls").show();
+				$("#access_control").hide();
+			}
+		}else
+		alert("Username / Password is blank.");
+	});
+
+	$(document).on('keyup', "#username, #password", function(e){
+		if(e.keyCode == 13){
+			$("#login_btn").trigger("click");
+		}
+	});
+
+	var frequency = 1500; //Update stats every 2 seconds
+	var hideInput = 0;
+
+	function executeQuery() {
+		hideInput = 0;
+
+		$.ajax({
+			type: 'POST',
+			// data: {leftServo: , rightServo: rightValue, thirdServo: thirdValue, fourthServo: fourthServo},
+			dataType: "json",
+			url: "http://<?=$_SERVER['SERVER_ADDR']?>/device_status.php",
+			success: function(response) {
+				if(response.temp=="1"){
+					$("#temperature_id").css("color", "red");
+					$("#temp_text").text("High");
+					hideInput = 1;
+				} else {
+					$("#temperature_id").css("color", "green");
+					$("#temp_text").text("Proper");
 				}
-			}else
-			alert("Username / Password is blank.");
-		});
+				if(response.voltage){
+					$("#voltage_id").css("color", "red");
+					$("#voltage_text").text("High");
+					hideInput = 1;
+				} else {
+					$("#voltage_id").css("color", "green");
+					$("#voltage_text").text("Proper");
+				}
+				if(response.current){
+					$("#current_id").css("color", "red");
+					$("#current_text").text("High");
+					hideInput = 1;
+				} else {
+					$("#current_id").css("color", "green");
+					$("#current_text").text("Proper");
+				}
+				
 
-		$(document).on('keyup', "#username, #password", function(e){
-			if(e.keyCode == 13){
-				$("#login_btn").trigger("click");
+				if(hideInput==1){
+					$(".input_servo").hide();
+				} else{
+					$(".input_servo").show();
+				}
 			}
 		});
+			setTimeout(executeQuery, frequency); // you could choose not to continue on failure...
+		}
+
+		// run the first time; all subsequent calls will take care of themselves
+		setTimeout(executeQuery, frequency);
 	</script>
 
 	</html>
