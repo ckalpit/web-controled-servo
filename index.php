@@ -2,6 +2,9 @@
 <head>
 	<?php
 	header("Access-Control-Allow-Origin: http://localhost");
+	shell_exec('gpio mode 21 in')
+	shell_exec('gpio mode 22 in')
+	shell_exec('gpio mode 23 in')
 	?>
 	<style>
 		* {
