@@ -1,7 +1,7 @@
 <?php
-$temperature = trim(shell_exec('gpio read 21 2>&1'));
-$voltage = trim(shell_exec('gpio read 22 2>&1'));
-$current = trim(shell_exec('gpio read 23 2>&1'));
+$temperature = trim(shell_exec('gpio read 27 2>&1'));
+$voltage = trim(shell_exec('gpio read 28 2>&1'));
+$current = trim(shell_exec('gpio read 29 2>&1'));
 
 //$temperature = 0;
 //$voltage = 0;
