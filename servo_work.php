@@ -22,4 +22,11 @@ if(is_numeric(trim($_POST['thirdServo']))){
 	shell_exec('cd /var/www/servo_controller && sudo python servoCMD3.py 0');
 	echo "Under 3";
 }
+
+if(is_numeric(trim($_POST['fourthServo']))){
+	var_dump(shell_exec('cd /var/www/servo_controller && sudo python servoCMD4.py '.trim($_POST['fourthServo']).' 2>&1'));
+} else{
+	shell_exec('cd /var/www/servo_controller && sudo python servoCMD4.py 0');
+	echo "Under 4";
+}
 ?>
