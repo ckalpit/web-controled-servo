@@ -5,6 +5,9 @@
 	shell_exec('gpio mode 21 in');
 	shell_exec('gpio mode 22 in');
 	shell_exec('gpio mode 23 in');
+	shell_exec('gpio write 21 0');
+	shell_exec('gpio write 22 0');
+	shell_exec('gpio write 23 0');
 	?>
 	<style>
 		* {
